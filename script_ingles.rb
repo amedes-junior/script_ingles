@@ -108,8 +108,8 @@ def work_file
 end
 
 def prepare_file
-  file = File.open("list00.txt", "r")
-  file_out = File.open("list00_.txt", "w")
+  file = File.open("list01.txt", "r")
+  file_out = File.open("list01_.txt", "w")
   str_match = ""
 
   file.each do |line|
@@ -123,8 +123,8 @@ def prepare_file
   file.close
   file_out.close
 
-  file = File.open("list00_.txt", "r")
-  file_out = File.open("list00__.txt", "w")
+  file = File.open("list01_.txt", "r")
+  file_out = File.open("list01__.txt", "w")
   cont = 0
   file.each do |line|
     if cont == 1
@@ -139,16 +139,41 @@ def prepare_file
 
 end
 
-cont = %x( cat list00.txt | grep '^[1-9].–' | wc -l)
+def prepare_cab
+  file = File.open("list00.txt", "r")
+  file_out = File.open("list01.txt", "w")
+  str_match = ""
+
+  cab = true
+
+  file.each do |line|
+    if line.match("###")
+      cab = false
+      file_out.puts str_match
+    else
+      str_match << "#{line.strip}<br/>"
+    end
+    unless cab
+      file_out.puts line
+    end
+  end
+  file.close
+  file_out.close
+
+end
+
+prepare_cab
+
+cont = %x( cat list01.txt | grep '^[1-9].–' | wc -l)
 if cont.to_i > 0
   prepare_file
-  %x(rm list00_.txt list00.txt)
-  %x(mv list00__.txt list00.txt)
+  %x(rm list01_.txt)
+  %x(mv list01__.txt list01.txt)
   puts "Arquivo foi manipulado com sucesso. Favor executar o script novamente"
-else
-  clear_files
-  unzip
-  convert
-  work_file
+#else
+#  clear_files
+#  unzip
+#  convert
+#  work_file
 end
 
