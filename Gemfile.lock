@@ -1,0 +1,22 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    RubyInline (3.12.5)
+      ZenTest (~> 4.3)
+    ZenTest (4.12.0)
+    byebug (11.0.1)
+    fuzzy-string-match (1.0.1)
+      RubyInline (>= 3.8.6)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  byebug
+  fuzzy-string-match
+
+RUBY VERSION
+   ruby 2.4.4p296
+
+BUNDLED WITH
+   2.0.1

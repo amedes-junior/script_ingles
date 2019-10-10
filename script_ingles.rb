@@ -1,4 +1,5 @@
 require "fuzzystringmatch"
+require "byebug"
 
 def clear_files
   %x(rm list01.txt; rm list02.txt; rm list03.txt; rm list04.txt; rm output.txt)
@@ -28,13 +29,15 @@ end
 
 
 def convert
+  #%x(grep '^$' list00.txt -v > list01.txt)
 
-  %x(grep '^$' list00.txt -v > list01.txt)
-  %x(grep '^00' list01.txt -v > list02.txt)
-  %x(grep '^Audio' list02.txt -v > list03.txt)
-  %x(grep '^Use Up/Down Arrow' list03.txt -v > list04.txt)
+  %x(grep '^00' list00.txt -v > list00_1.txt)
+  %x(grep '^Audio' list00_1.txt -v > list00_2.txt)
+  %x(grep '^Use Up/Down Arrow' list00_2.txt -v > list00_3.txt)
 
-  %x(rm list01.txt; rm list02.txt; rm list03.txt)
+  %x(rm list00_1.txt; rm list00_2.txt; rm list00.txt)
+
+  %x(mv list00_3.txt list00.txt)
 end
 
 def search_mp3_file (arr_mp3, str_search)
@@ -56,7 +59,6 @@ end
 
 
 def work_file
-
   # Arr mp3 Files
   arr_mp3 = Array.new
   %x(ls *.mp3 > file_list.txt)
@@ -114,7 +116,7 @@ def prepare_file
 
   file.each do |line|
     if line.match(/^[1-9].–/)
-      puts line
+      #puts line
       str_match << "<br/><br/>#{line.strip}"
     else
       file_out.puts line
@@ -159,21 +161,57 @@ def prepare_cab
   end
   file.close
   file_out.close
-
 end
 
-prepare_cab
+def prepare_lines
+  first_blank = false
+  arq = ""
+  a_anki = Array.new
+  file = File.open("list01.txt", "r")
+  file_out = File.open("list02.txt", "w")
+  file.each do |line|
+    #byebug
+    arq << line
+    if !first_blank && line.length == 1
+      first_blank = true
+      file_out.puts arq
+    end
+    #
+    if first_blank
+      if line.length == 1
+        if a_anki.size > 0
+          a_anki.each {|e| file_out.puts e}
+          file_out.puts
+          a_anki = []
+        end
+      else
+        a_anki.size == 0 || a_anki.size == 1 ? a_anki << line.strip : a_anki[1] += line.strip
+      end
+    end
+  end
+  a_anki.each {|e| file_out.puts e}
+  file_out.puts
+  file.close
+  file_out.close
+end
 
+########################################################################
+
+convert
+prepare_cab
 cont = %x( cat list01.txt | grep '^[1-9].–' | wc -l)
 if cont.to_i > 0
   prepare_file
   %x(rm list01_.txt)
   %x(mv list01__.txt list01.txt)
-  puts "Arquivo foi manipulado com sucesso. Favor executar o script novamente"
+  puts "Arquivo foi manipulado com sucesso."
+end
+prepare_lines
+
 #else
 #  clear_files
 #  unzip
 #  convert
 #  work_file
-end
+
 
