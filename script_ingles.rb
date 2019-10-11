@@ -3,7 +3,7 @@ require "byebug"
 
 def clear_files
   #%x(rm list01.txt; rm list02.txt; rm list03.txt; rm list04.txt; rm output.txt)
-  %x(rm *.mp3)
+  %x(rm *.mp3; rm *.pdf)
 end
 
 def unzip
@@ -53,7 +53,7 @@ def search_mp3_file (arr_mp3, str_search)
       x = y
     end
   end
-  puts "#{f} - #{x*100}%"
+  puts "#{f} - #{x*100}% - #{str_search}"
   return f
 end
 
@@ -69,7 +69,7 @@ def work_file
   file_list.close
   #
 
-  file_text = File.open("list02.txt", "r")
+  file_text = File.open("list04.txt", "r")
   file_output = File.open("output.txt", "w")
   mp3_file = ""
   seq = 1
@@ -195,6 +195,11 @@ def prepare_lines
   file_out.close
 end
 
+def wipe_line
+  %x(grep '^###' list02.txt -v > list03.txt)
+  %x(grep '^$' list03.txt -v > list04.txt)
+end
+
 ########################################################################
 
 convert
@@ -208,7 +213,8 @@ if cont.to_i > 0
 end
 prepare_lines
 
-#else
+wipe_line
+
 clear_files
 unzip
 work_file
