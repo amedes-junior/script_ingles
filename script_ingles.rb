@@ -2,7 +2,7 @@ require "fuzzystringmatch"
 require "byebug"
 
 def clear_files
-  %x(rm list01.txt; rm list02.txt; rm list03.txt; rm list04.txt; rm output.txt)
+  #%x(rm list01.txt; rm list02.txt; rm list03.txt; rm list04.txt; rm output.txt)
   %x(rm *.mp3)
 end
 
@@ -23,8 +23,8 @@ def unzip
     %x(mv "#{file.strip}" #{file.strip.gsub('\'', '').gsub(' ', '-').gsub(';', '').gsub('’', '').gsub('?', '').gsub('‘', '').gsub('—','-')})
   end
   file_list.close
-  system("cp *.mp3 '/home/aecj/.local/share/Anki2/Usuário 1/collection.media/'")
-  %x(rm *.zip)
+  #system("cp *.mp3 '/home/aecj/.local/share/Anki2/Usuário 1/collection.media/'")
+  #%x(rm *.zip)
 end
 
 
@@ -69,7 +69,7 @@ def work_file
   file_list.close
   #
 
-  file_text = File.open("list04.txt", "r")
+  file_text = File.open("list02.txt", "r")
   file_output = File.open("output.txt", "w")
   mp3_file = ""
   seq = 1
@@ -209,9 +209,8 @@ end
 prepare_lines
 
 #else
-#  clear_files
-#  unzip
-#  convert
-#  work_file
+clear_files
+unzip
+work_file
 
 
