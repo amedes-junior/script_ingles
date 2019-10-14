@@ -119,18 +119,19 @@ def prepare_file
       #puts line
       str_match << "<br/><br/>#{line.strip}"
     else
-      file_out.puts line
+      file_out.puts line.strip
     end
   end
   file.close
   file_out.close
 
+
   file = File.open("list01_.txt", "r")
   file_out = File.open("list01__.txt", "w")
-  cont = 0
+  cont = 1
   file.each do |line|
     if cont == 1
-      file_out.puts str_match
+      file_out.puts "#{line.strip} - #{str_match.strip}"
     else
       file_out.puts line
     end
@@ -215,8 +216,8 @@ prepare_lines
 
 wipe_line
 
-clear_files
-unzip
-work_file
+#clear_files
+#unzip
+#work_file
 
 
