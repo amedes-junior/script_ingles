@@ -23,8 +23,8 @@ def unzip
     %x(mv "#{file.strip}" #{file.strip.gsub('\'', '').gsub(' ', '-').gsub(';', '').gsub('’', '').gsub('?', '').gsub('‘', '').gsub('—','-')})
   end
   file_list.close
-  #system("cp *.mp3 '/home/aecj/.local/share/Anki2/Usuário 1/collection.media/'")
-  #%x(rm *.zip)
+  system("cp *.mp3 '/home/aecj/.local/share/Anki2/Usuário 1/collection.media/'")
+  %x(rm *.zip)
 end
 
 
@@ -216,8 +216,9 @@ prepare_lines
 
 wipe_line
 
-#clear_files
-#unzip
-#work_file
+clear_files
+unzip
+work_file
+
 
 
