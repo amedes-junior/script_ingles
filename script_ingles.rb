@@ -23,7 +23,9 @@ def unzip
     %x(mv "#{file.strip}" #{file.strip.gsub('\'', '').gsub(' ', '-').gsub(';', '').gsub('’', '').gsub('?', '').gsub('‘', '').gsub('—','-')})
   end
   file_list.close
-  system("cp *.mp3 '/home/aecj/.local/share/Anki2/Usuário 1/collection.media/'")
+  #system("cp *.mp3 '/home/aecj/.local/share/Anki2/Usuário 1/collection.media/'")
+  system("cp *.mp3 '/home/aecj/snap/anki-woodrow/20/.local/share/Anki2/Usuário 1/collection.media'")
+
   %x(rm *.zip)
 end
 
@@ -46,7 +48,7 @@ def search_mp3_file (arr_mp3, str_search)
   f = ""
 
   arr_mp3.each do |file|
-    y = jarow.getDistance(file.gsub('-',' '),str_search )
+    y = jarow.getDistance(file.split("---")[1].gsub('-',' ').gsub('.mp3', '')    , str_search)
     if y > x
       #puts "x = #{x} y = #{y} ===> Array File = #{file.gsub('-',' ')} x File = #{str_search}"
       f = file
@@ -212,8 +214,8 @@ if cont.to_i > 0
   %x(mv list01__.txt list01.txt)
   puts "Arquivo foi manipulado com sucesso."
 end
-prepare_lines
 
+prepare_lines
 wipe_line
 
 clear_files
