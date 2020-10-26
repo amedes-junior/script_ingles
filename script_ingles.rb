@@ -20,11 +20,11 @@ def unzip
   file_list.each do |file|
     puts "Renomeando arquivo #{file.strip} "
     file = file.gsub('$', '\$')
-    %x(mv "#{file.strip}" #{file.strip.gsub('\'', '').gsub(' ', '-').gsub(';', '').gsub('’', '').gsub('?', '').gsub('‘', '').gsub('—','-')})
+    %x(mv "#{file.strip}" #{rand(9999999999)}-aecj-#{file.strip.gsub('\'', '').gsub('(', '').gsub(')','').gsub(' ', '-').gsub(';', '').gsub('’', '').gsub('?', '').gsub('‘', '').gsub('—','-')})
   end
   file_list.close
   #system("cp *.mp3 '/home/aecj/.local/share/Anki2/Usuário 1/collection.media/'")
-  system("cp *.mp3 '/home/aecj/snap/anki-woodrow/20/.local/share/Anki2/Usuário 1/collection.media'")
+  system("cp *.mp3 '/home/aecj/snap/anki-woodrow/27/.local/share/Anki2/Usuário 1/collection.media'")
 
   %x(rm *.zip)
 end
@@ -48,7 +48,7 @@ def search_mp3_file (arr_mp3, str_search)
   f = ""
 
   arr_mp3.each do |file|
-    y = jarow.getDistance(file.split("---")[1].gsub('-',' ').gsub('.mp3', '')    , str_search)
+    y = jarow.getDistance(file.split("-aecj-")[1].split("---")[1].gsub('-',' ').gsub('.mp3', '')    , str_search)
     if y > x
       #puts "x = #{x} y = #{y} ===> Array File = #{file.gsub('-',' ')} x File = #{str_search}"
       f = file
@@ -221,6 +221,3 @@ wipe_line
 clear_files
 unzip
 work_file
-
-
-
