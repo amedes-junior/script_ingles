@@ -55,7 +55,7 @@ def search_mp3_file (arr_mp3, str_search)
       x = y
     end
   end
-  puts "#{f} - #{x*100}% - #{str_search}"
+  puts "#{x*100}% ==> #{f} - #{str_search}"
   return f
 end
 
@@ -91,11 +91,11 @@ def work_file
         mp3_file = search_mp3_file(arr_mp3, file)
         #puts "====> #{mp3_file}"
       else
-        if arr_mp3.include? mp3_file
-          puts "#{mp3_file} ======> OK"
-        else
-          puts "#{mp3_file} ======> Error"
-        end
+        #if arr_mp3.include? mp3_file
+        #  puts "#{mp3_file} ======> OK"
+        #else
+        #  puts "#{mp3_file} ======> Error"
+        #end
         line_anki << file.strip.gsub(";",",") + "<br/><br/><br/>" + header + ";[sound:#{mp3_file}]"
         seq += 1
         file_output.puts line_anki
