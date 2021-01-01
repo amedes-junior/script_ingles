@@ -48,7 +48,13 @@ def search_mp3_file (arr_mp3, str_search)
   f = ""
 
   arr_mp3.each do |file|
-    y = jarow.getDistance(file.split("-aecj-")[1].split("---")[1].gsub('-',' ').gsub('.mp3', '')    , str_search)
+    file2 = file
+    file2 = file2.split("-aecj-")[1]
+    file2 = file2.split("---")[1] if file2.include? "---"
+    file2 = file2.split("--")[1] if file2.include? "--"
+    file2 = file2.split("-")[1] if file2.include? "-"
+
+    y = jarow.getDistance(file2.gsub('-',' ').gsub('.mp3', '')    , str_search)
     if y > x
       #puts "x = #{x} y = #{y} ===> Array File = #{file.gsub('-',' ')} x File = #{str_search}"
       f = file
