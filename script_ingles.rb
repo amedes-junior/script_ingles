@@ -24,6 +24,7 @@ def unzip
   end
   file_list.close
   #system("cp *.mp3 '/home/aecj/.local/share/Anki2/Usuário 1/collection.media/'")
+
   system("cp *.mp3 '/home/aecj/snap/anki-woodrow/27/.local/share/Anki2/Usuário 1/collection.media'")
 
   %x(rm *.zip)
@@ -52,7 +53,7 @@ def search_mp3_file (arr_mp3, str_search)
     file2 = file2.split("-aecj-")[1]
     file2 = file2.split("---")[1] if file2.include? "---"
     file2 = file2.split("--")[1] if file2.include? "--"
-    file2 = file2.split("-")[1] if file2.include? "-"
+    #file2 = file2.split("-")[1] if file2.include? "-"
 
     y = jarow.getDistance(file2.gsub('-',' ').gsub('.mp3', '')    , str_search)
     if y > x
