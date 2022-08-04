@@ -43,7 +43,7 @@ def convert
   %x(mv list00_3.txt list00.txt)
 end
 
-def search_mp3_file (arr_mp3, str_search)
+def search_mp3_file(arr_mp3, str_search)
   jarow = FuzzyStringMatch::JaroWinkler.create( :native )
   x = 0
   f = ""
