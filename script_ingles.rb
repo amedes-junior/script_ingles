@@ -43,7 +43,7 @@ def convert
   %x(mv list00_3.txt list00.txt)
 end
 
-def search_mp3_file(arr_mp3, str_search)
+def search_mp3_file (arr_mp3, str_search)
   jarow = FuzzyStringMatch::JaroWinkler.create( :native )
   x = 0
   f = ""
@@ -54,8 +54,11 @@ def search_mp3_file(arr_mp3, str_search)
     file2 = file2.split("---")[1] if file2.include? "---"
     file2 = file2.split("--")[1] if file2.include? "--"
     #file2 = file2.split("-")[1] if file2.include? "-"
+    lenFile2 = file2.gsub('-',' ').gsub('.mp3', '').length
+    #byebug
 
-    y = jarow.getDistance(file2.gsub('-',' ').gsub('.mp3', '')    , str_search)
+
+    y = jarow.getDistance(file2.gsub('-',' ').gsub('.mp3', ''), str_search[0..lenFile2])
     if y > x
       #puts "x = #{x} y = #{y} ===> Array File = #{file.gsub('-',' ')} x File = #{str_search}"
       f = file
