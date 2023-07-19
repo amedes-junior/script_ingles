@@ -16,7 +16,7 @@ DEPENDENCIES
   fuzzy-string-match
 
 RUBY VERSION
-   ruby 2.4.1p111
+   ruby 3.0.4p208
 
 BUNDLED WITH
-   2.0.1
+   2.2.33

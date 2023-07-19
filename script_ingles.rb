@@ -23,7 +23,9 @@ def unzip
     %x(mv "#{file.strip}" #{rand(9999999999)}-aecj-#{file.strip.gsub('\'', '').gsub('"', '').gsub('(', '').gsub(')','').gsub(' ', '-').gsub(';', '').gsub('“','').gsub('”','').gsub('!','').gsub('’', '').gsub('?', '').gsub('‘', '').gsub('—','-')})
   end
   file_list.close
-  system("cp *.mp3 '/home/aecj/.local/share/Anki2/Usuário 1/collection.media/'")
+  #system("cp *.mp3 '/home/aecj/.local/share/Anki2/Usuário 1/collection.media/'")
+
+  system("cp *.mp3 '/Users/aecj/Library/Application Support/Anki2/Usuário 1/collection.media'")
 
   #system("cp *.mp3 '/home/aecj/snap/anki-woodrow/27/.local/share/Anki2/Usuário 1/collection.media'")
 
@@ -225,9 +227,15 @@ if cont.to_i > 0
   puts "Arquivo foi manipulado com sucesso."
 end
 
+
+ ##
+ system("cp ~/Downloads/*.zip ~/Apps/script_ingles")
+
+
 prepare_lines
 wipe_line
 
 clear_files
 unzip
 work_file
+clear_files
