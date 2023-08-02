@@ -4,6 +4,7 @@ require "byebug"
 def clear_files
   #%x(rm list01.txt; rm list02.txt; rm list03.txt; rm list04.txt; rm output.txt)
   %x(rm *.mp3; rm *.pdf)
+  #%x(rm ~/Downloads/*.mp3; rm ~/Downloads/*.pdf)
 end
 
 def unzip
@@ -229,7 +230,7 @@ end
 
 
  ##
- system("cp ~/Downloads/*.zip ~/Apps/script_ingles")
+ system("mv ~/Downloads/*.zip ~/Apps/script_ingles")
 
 
 prepare_lines
