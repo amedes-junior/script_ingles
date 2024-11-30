@@ -55,7 +55,7 @@ def search_mp3_file (arr_mp3, str_search)
     file2 = file
     file2 = file2.split("-aecj-")[1]
     file2 = file2.split("---")[1] if file2.include? "---"
-    file2 = file2.split("--")[1] if file2.include? "--"
+    # file2 = file2.split("--")[1] if file2.include? "--"
     #file2 = file2.split("-")[1] if file2.include? "-"
     lenFile2 = file2.gsub('-',' ').gsub('.mp3', '').length
     #byebug
@@ -67,6 +67,7 @@ def search_mp3_file (arr_mp3, str_search)
       f = file
       x = y
     end
+    # byebug
   end
   puts "#{x*100}% ==> #{f} - #{str_search}"
   return f
