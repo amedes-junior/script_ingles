@@ -1,24 +1,38 @@
 –
 
 
-script_ingles -> Dez, 30 de 2024
+script_ingles -> Jan, 30 de 2025
 
 https://www.mairovergara.com/page/1/
-Mend One’s Ways | O que significa esta expressão?
+There And Then | O que significa esta expressão?
 Page 01
 
 #################################################
+Erros -->
 
-=== Erro - fazer nova tentativa ==> 990 - SQUARE OFF
+1) === Erro - fazer nova tentativa ==> 990 - SQUARE OFF
+
+2) === Como se diz “Horário de Pico” em inglês? Clamp down on (Sem arquivos de áudio)
+
+3) ===  Erro = Focus on (Pronuncia) Regerar (erro arquivos de áudio)
+
+4) Hate Someone’s Guts | O que significa esta expressão? (Pronuncia) Regerar (erro arquivos de áudio)
+
+5) Número em Ingles --> Validar/Ajustar  e Adicionar no anki
 
 
-O QUE SIGNIFICA EM INGLÊS -> Out Of One’s Depth | O que significa esta expressão?
+Such A ????? == Não lembro
+
+##################################################
+
+
+O QUE SIGNIFICA EM INGLÊS -> Mend One’s Ways | O que significa esta expressão? (Conferido)
 Page 01
 
-QUAL A DIFERENÇA EM INGLÊS -> Qual a diferença entre Married To e Married With?
+QUAL A DIFERENÇA EM INGLÊS -> Qual a diferença entre Married To e Married With? (Conferido)
 Page 01
 
-Estruturas do inglês -> Estruturas do inglês | Conjunção explicativa “Dado Que”
+Estruturas do inglês -> Estruturas do inglês | Conjunção explicativa “Dado Que” (Conferido)
 Page 01
 
 
@@ -28,18 +42,6 @@ Page 01
 COMO SE DIZ EM INGLÊS? -> Como se diz “Refrigerante” em inglês?
 Page 01
 
-
-
-
-
-
-######################################################################################################### Problemas
-Erro = Focus on
-Hate Someone’s Guts | O que significa esta expressão?
-
-Erro-
-
-Such A
 
 
 ############################################################# -> Números em inglês: do 1 ao infinito (Falta ajustar)
