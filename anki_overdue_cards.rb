@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'sqlite3'
+require 'date'
 
 # Path to Anki database
 DB_PATH = File.expand_path("~/Library/Application Support/Anki2/Usuário 1/collection.anki2")
@@ -7,6 +8,10 @@ DB_PATH = File.expand_path("~/Library/Application Support/Anki2/Usuário 1/colle
 # Open database connection
 db = SQLite3::Database.new(DB_PATH)
 db.results_as_hash = true
+
+# Get today's date
+today = Date.today.to_s
+total_cards_study_day = 100
 
 # SQL query to get overdue cards by day
 query = <<-SQL
@@ -17,8 +22,8 @@ query = <<-SQL
   WHERE queue = 2
     AND type = 2
     AND due < (strftime('%s', 'now') - 1479276000) / 86400
-    AND date(1479276000 + (due * 86400), 'unixepoch') >= '2025-06-10'
-    AND date(1479276000 + (due * 86400), 'unixepoch') <= '2025-10-18'
+    AND date(1479276000 + (due * 86400), 'unixepoch') >= '2025-06-01'
+    AND date(1479276000 + (due * 86400), 'unixepoch') <= '#{today}'
   GROUP BY date(1479276000 + (due * 86400), 'unixepoch')
   ORDER BY due_date;
 SQL
@@ -50,7 +55,7 @@ if results.length > 0
   min_count = counts.min
   max_count = counts.max
 
-  puts "\nSTATISTICS:"
+  puts "\n 📊 STATISTICS:"
   puts "  Total days: #{results.length}"
   puts "  Total overdue cards: #{total_cards}"
   puts "  Average per day: #{average.round(2)}"
@@ -63,6 +68,9 @@ if results.length > 0
 
   puts "  Minimum on: #{min_date}"
   puts "  Maximum on: #{max_dates.join(', ')}"
+
+  puts "  📈 Total day to 0 (zero) overdue: #{(total_cards / total_cards_study_day).to_i + 1} days"
+  puts "  📅 Expected date to 0(zero) overdue: #{(Date.today + ((total_cards / total_cards_study_day).to_i + 1)).to_s} 🎯"
 end
 
 # Close database
