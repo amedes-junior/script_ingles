@@ -32,21 +32,23 @@ SQL
 results = db.execute(query)
 
 # Display results in table format
-puts "=" * 50
+puts "=" * 70
 puts "OVERDUE CARDS BY DAY"
-puts "=" * 50
-puts "%-15s | %s" % ["Date", "Overdue Count"]
-puts "-" * 50
+puts "=" * 70
+puts "%-15s | %13s | %s" % ["Date", "Overdue Count", "Cumulative Sum"]
+puts "-" * 70
 
 total_cards = 0
+cumulative_sum = 0
 results.each do |row|
-  puts "%-15s | %13d" % [row['due_date'], row['overdue_count']]
+  cumulative_sum += row['overdue_count']
+  puts "%-15s | %13d | %14d" % [row['due_date'], row['overdue_count'], cumulative_sum]
   total_cards += row['overdue_count']
 end
 
-puts "-" * 50
-puts "%-15s | %13d" % ["TOTAL", total_cards]
-puts "=" * 50
+puts "-" * 70
+puts "%-15s | %13d | %14d" % ["TOTAL", total_cards, cumulative_sum]
+puts "=" * 70
 
 # Calculate statistics
 if results.length > 0
