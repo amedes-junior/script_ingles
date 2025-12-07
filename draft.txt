@@ -26,3 +26,49 @@ Erros -->
 Such A ????? == Não lembro
 
 //////
+
+=========> Previsão dia 06/12/2025
+
+📊 Resumo:
+  • Total de dias: 344
+  • Data final: 14/11/2026 (Saturday)
+  • Pico de atrasados: 5151 cards
+
+💡 Legenda:
+  • Atrasados: Cards que já estavam atrasados de dias anteriores
+  • Vencem Hoje: Cards programados no banco Anki para vencer hoje
+  • Novos(10): 10 novos cards do dia anterior que vencem hoje
+  • Total: Atrasados + Vencem Hoje + Novos(10) = Total de cards para zerar
+  • Estudados: 100 cards antigos estudados (do Total)
+  • Novos Hj: 10 novos cards estudados hoje (vão vencer amanhã)
+  • Restantes: Total - Estudados = Atrasados para o próximo dia
+
+  📝 Total estudado por dia: 100 antigos + 10 novos = 110 cards
+====================================================================================================
+
+✅ Mantenha o ritmo e você zerará em 14/11/2026!
+
+=========> Previsão dia 07/12/2025
+
+================================================================================
+ANKI - CALCULADORA DE DATA PARA ZERAR CARDS ATRASADOS
+================================================================================
+
+📊 Resumo:
+  • Total de dias: 342
+  • Data final: 13/11/2026 (Friday)
+  • Pico de atrasados: 5112 cards
+
+💡 Legenda:
+  • Atrasados: Cards que já estavam atrasados de dias anteriores
+  • Vencem Hoje: Cards programados no banco Anki para vencer hoje
+  • Novos(10): 10 novos cards do dia anterior que vencem hoje
+  • Total: Atrasados + Vencem Hoje + Novos(10) = Total de cards para zerar
+  • Estudados: 100 cards antigos estudados (do Total)
+  • Novos Hj: 10 novos cards estudados hoje (vão vencer amanhã)
+  • Restantes: Total - Estudados = Atrasados para o próximo dia
+
+  📝 Total estudado por dia: 100 antigos + 10 novos = 110 cards
+====================================================================================================
+
+✅ Mantenha o ritmo e você zerará em 13/11/2026!
