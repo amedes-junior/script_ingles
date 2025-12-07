@@ -9,7 +9,7 @@ DB_PATH = File.expand_path("~/Library/Application Support/Anki2/Usuário 1/colle
 # Default parameters
 options = {
   start_date: Date.today,
-  end_date: Date.today + 30,
+  end_date: Date.today + 90,
   new_cards_per_day: 10,
   cards_studied_per_day: 100
 }
