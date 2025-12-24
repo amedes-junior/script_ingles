@@ -4,8 +4,8 @@ require 'sqlite3'
 
 # Configurações
 ANKI_DB = "/Users/aecj/Library/Application Support/Anki2/Usuário 1/collection.anki2"
-CARDS_PER_DAY = 100        # Cards de revisão por dia (atrasados + que vencem)
-NEW_CARDS_PER_DAY = 10     # Novos cards adicionais (MAIS 10, totalizando 110/dia)
+CARDS_PER_DAY = 120       # Cards de revisão por dia (atrasados + que vencem)
+NEW_CARDS_PER_DAY = 5     # Novos cards adicionais (MAIS 10, totalizando 110/dia)
 
 def get_overdue_cards
   db = SQLite3::Database.new(ANKI_DB)
