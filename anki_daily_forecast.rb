@@ -88,135 +88,131 @@ def get_cards_due_on_day(db, crt, target_date)
 end
 
 # Display header
-puts "=" * 110
+puts "=" * 115
 puts "                        ANKI DAILY STUDY FORECAST"
-puts "=" * 110
+puts "=" * 115
 puts ""
 puts "📅 Date Range: #{start_date.strftime('%Y-%m-%d')} to #{end_date.strftime('%Y-%m-%d')}"
-puts "📚 Study Plan: #{cards_studied_per_day} cards/day (#{new_cards_per_day} new + #{cards_studied_per_day - new_cards_per_day} reviews)"
+puts "📚 Study Plan: #{cards_studied_per_day} reviews/day limit + #{new_cards_per_day} new cards/day (extras, fora do limite)"
 puts "⏰ Current overdue cards: #{current_overdue}"
 puts ""
-puts "=" * 110
+puts "=" * 115
 
 # Display table header
 puts ""
-puts sprintf("%-5s | %-12s | %-15s | %-15s | %-15s | %-15s | %s",
-             "#", "Date", "Due Reviews", "New Cards", "Overdue", "Total", "Overdue/Day")
-puts "-" * 110
+puts sprintf("%-5s | %-12s | %-13s | %-12s | %-10s | %-10s | %-13s | %s",
+             "#", "Date", "Due Reviews", "Overdue In", "Total", "Studied", "New Overdue", "New Cards")
+puts "-" * 115
 
 # Calculate daily forecast
 current_day = start_date
 day_number = 1
-total_cards_all_days = 0
-remaining_overdue = current_overdue
-net_progress = cards_studied_per_day - new_cards_per_day
+accumulated_overdue = current_overdue
+zero_overdue_date = nil
+had_overdue = current_overdue > 0
 
 while current_day <= end_date
   # Get cards due on this specific day
   due_reviews = get_cards_due_on_day(db, crt, current_day)
 
-  # Calculate overdue for this day
   if current_day < Date.today
-    # Past days - we don't have historical data
-    day_overdue = "N/A"
-    total_for_day = "N/A"
-    overdue_new_day = "N/A"
-  elsif current_day == Date.today
-    # Today
-    day_overdue = current_overdue
-    total_for_day = [due_reviews + new_cards_per_day + day_overdue, cards_studied_per_day].max
-    overdue_new_day = (due_reviews + day_overdue) - (cards_studied_per_day + new_cards_per_day)
+    # Past days - no historical simulation
+    overdue_in_str  = "N/A"
+    total_str       = "N/A"
+    studied_str     = "N/A"
+    overdue_out_str = "N/A"
+    overdue_in      = nil
+    overdue_out     = nil
   else
-    # Future days - project overdue reduction
-    days_from_today = (current_day - Date.today).to_i
-    day_overdue = [remaining_overdue - (days_from_today * net_progress), 0].max
+    overdue_in    = accumulated_overdue
+    total_reviews = due_reviews + overdue_in
 
-    # Total cards to study = due reviews + new cards + overdue
-    # But we'll study up to cards_studied_per_day
-    total_cards_available = due_reviews + new_cards_per_day + day_overdue
-    total_for_day = total_cards_available
-    overdue_new_day = (due_reviews + day_overdue) - (cards_studied_per_day + new_cards_per_day)
-  end
-
-  # Skip lines where due_reviews is 0
-  unless due_reviews == 0
-    # Format output
-    day_str = day_number.to_s
-    date_str = current_day.strftime('%Y-%m-%d')
-    due_str = due_reviews.to_s
-    new_str = new_cards_per_day.to_s
-    overdue_str = day_overdue.is_a?(String) ? day_overdue : day_overdue.to_s
-    total_str = total_for_day.is_a?(String) ? total_for_day : total_for_day.to_s
-    overdue_new_str = overdue_new_day.is_a?(String) ? overdue_new_day : overdue_new_day.to_s
-
-    # Highlight today
-    if current_day == Date.today
-      puts sprintf("%-5s | %-12s | %15s | %15s | %15s | %15s | %15s  ← TODAY",
-                  day_str, date_str, due_str, new_str, overdue_str, total_str, overdue_new_str)
+    # The 120 limit applies only to reviews (due + overdue). New cards are extra.
+    if total_reviews > cards_studied_per_day
+      studied     = cards_studied_per_day
+      overdue_out = total_reviews - cards_studied_per_day
     else
-      puts sprintf("%-5s | %-12s | %15s | %15s | %15s | %15s | %15s",
-                  day_str, date_str, due_str, new_str, overdue_str, total_str, overdue_new_str)
+      studied     = total_reviews
+      overdue_out = 0
     end
+
+    # Track first day accumulated overdue reaches zero
+    if had_overdue && overdue_out == 0 && zero_overdue_date.nil?
+      zero_overdue_date = current_day
+    end
+
+    accumulated_overdue = overdue_out
+
+    overdue_in_str  = overdue_in.to_s
+    total_str       = total_reviews.to_s
+    studied_str     = studied.to_s
+    overdue_out_str = overdue_out.to_s
   end
 
-  # Track totals (only for numeric values)
-  if total_for_day.is_a?(Integer)
-    total_cards_all_days += total_for_day
-  end
+  # Show row if there are due reviews or accumulated overdue entering the day
+  show_row = due_reviews > 0 || (current_day >= Date.today && overdue_in && overdue_in > 0)
 
-  # Update remaining overdue for next iteration
-  if current_day >= Date.today && day_overdue.is_a?(Integer)
-    remaining_overdue = [day_overdue - net_progress, 0].max
+  if show_row
+    day_str  = day_number.to_s
+    date_str = current_day.strftime('%Y-%m-%d')
+    due_str  = due_reviews.to_s
+    new_str  = new_cards_per_day.to_s
+
+    if current_day == Date.today
+      puts sprintf("%-5s | %-12s | %13s | %12s | %10s | %10s | %13s | %10s  ← TODAY",
+                   day_str, date_str, due_str, overdue_in_str, total_str, studied_str, overdue_out_str, new_str)
+    else
+      puts sprintf("%-5s | %-12s | %13s | %12s | %10s | %10s | %13s | %10s",
+                   day_str, date_str, due_str, overdue_in_str, total_str, studied_str, overdue_out_str, new_str)
+    end
   end
 
   current_day += 1
   day_number += 1
 end
 
-puts "=" * 110
+puts "=" * 115
 puts ""
 
 # Summary statistics
 total_days = (end_date - start_date).to_i + 1
-future_days = total_days - [0, (Date.today - start_date).to_i].max
 
 puts "📊 SUMMARY STATISTICS"
-puts "-" * 110
-puts sprintf("  %-35s %10d days", "Total days in range:", total_days)
-puts sprintf("  %-35s %10d cards", "Current overdue cards:", current_overdue)
-puts sprintf("  %-35s %10d cards/day", "Daily study target:", cards_studied_per_day)
-puts sprintf("  %-35s %10d cards/day", "Net progress (reviews - new):", net_progress)
+puts "-" * 115
+puts sprintf("  %-40s %10d days", "Total days in range:", total_days)
+puts sprintf("  %-40s %10d cards", "Current overdue cards:", current_overdue)
+puts sprintf("  %-40s %10d cards/day", "Daily review limit:", cards_studied_per_day)
+puts sprintf("  %-40s %10d cards/day", "New cards per day (extra):", new_cards_per_day)
 
-if current_overdue > 0 && net_progress > 0
-  days_to_zero = (current_overdue.to_f / net_progress).ceil
-  zero_date = Date.today + days_to_zero
-
-  puts sprintf("  %-35s %10d days", "Days to zero overdue:", days_to_zero)
-  puts sprintf("  %-35s %10s", "Projected zero date:", zero_date.strftime('%Y-%m-%d'))
-
-  if zero_date <= end_date
-    puts ""
-    puts "  🎯 You will reach zero overdue cards within this date range! 🎉"
-  end
+if zero_overdue_date
+  days_to_zero = (zero_overdue_date - Date.today).to_i
+  puts sprintf("  %-40s %10d days", "Days to zero overdue:", days_to_zero)
+  puts sprintf("  %-40s %10s", "Projected zero date:", zero_overdue_date.strftime('%Y-%m-%d'))
+  puts ""
+  puts "  🎯 Overdue zerado em #{zero_overdue_date.strftime('%Y-%m-%d')}! 🎉"
+elsif had_overdue
+  puts ""
+  puts "  ⚠️  Overdue não zera dentro do período informado."
 end
 
 puts ""
-puts "=" * 110
+puts "=" * 115
 puts ""
 
 # Legend
 puts "📖 LEGEND"
-puts "-" * 110
-puts "  Due Reviews:  Cards scheduled for review on that specific day"
-puts "  New Cards:    New cards you plan to learn that day"
-puts "  Overdue:      Cards from previous days not yet reviewed"
-puts "  Total:        Total cards available to study that day"
-puts "  Overdue/Day:  (Due Reviews + Overdue) - (#{cards_studied_per_day} + #{new_cards_per_day}). Positive = falling behind, Negative = catching up."
+puts "-" * 115
+puts "  Due Reviews: Cards agendados para revisão nesse dia (do banco do Anki)"
+puts "  Overdue In:  Cards atrasados acumulados que entram nesse dia"
+puts "  Total:       Due Reviews + Overdue In (total disponível para revisar, excluindo novos)"
+puts "  Studied:     Cards efetivamente revisados = min(Total, #{cards_studied_per_day})"
+puts "  New Overdue: Cards que não couberam no dia = max(0, Total - #{cards_studied_per_day})"
+puts "  New Cards:   Novos cards aprendidos no dia (#{new_cards_per_day}/dia, NÃO contam no limite de #{cards_studied_per_day})"
 puts ""
-puts "Note: Future overdue projections assume you study #{cards_studied_per_day} cards/day"
-puts "      and learn #{new_cards_per_day} new cards/day consistently."
+puts "Regra: O limite de #{cards_studied_per_day} reviews/dia se aplica apenas a Due Reviews + Overdue."
+puts "       Os #{new_cards_per_day} novos cards são extras e se tornam reviews futuros."
 puts ""
-puts "=" * 110
+puts "=" * 115
 
 # Close database
 db.close
