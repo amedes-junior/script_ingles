@@ -11,7 +11,7 @@ options = {
   start_date: Date.today,
   end_date: Date.today + 720,
   new_cards_per_day: 5,
-  cards_studied_per_day: 120
+  cards_studied_per_day: 100
 }
 
 # Parse command line options
