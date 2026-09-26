@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/aecj/Library/**)",
+      "Bash(sqlite3 ~/Library/Application Support/Anki2/Usuário 1/collection.anki2 \".schema\")",
+      "Bash(sqlite3 \"/Users/aecj/Library/Application Support/Anki2/Usuário 1/collection.anki2\" \".schema\")",
+      "Bash(sqlite3 \"/Users/aecj/Library/Application Support/Anki2/Usuário 1/collection.anki2\" \"SELECT COUNT(*) as total_buried_cards FROM cards WHERE queue = -2 OR queue = -3;\")",
+      "Bash(sqlite3 \"/Users/aecj/Library/Application Support/Anki2/Usuário 1/collection.anki2\" \"SELECT queue, COUNT(*) as count FROM cards GROUP BY queue ORDER BY queue;\")",
+      "Bash(sqlite3 \"/Users/aecj/Library/Application Support/Anki2/Usuário 1/collection.anki2\" \"SELECT date(due, ''unixepoch'') as due_date, COUNT(*) as buried_count FROM cards WHERE queue IN (-2, -3) GROUP BY date(due, ''unixepoch'') ORDER BY due_date;\")",
+      "Bash(sqlite3 \"/Users/aecj/Library/Application Support/Anki2/Usuário 1/collection.anki2\" \"SELECT CASE WHEN queue = -2 THEN ''User Buried'' WHEN queue = -3 THEN ''Scheduler Buried'' END as bury_type, COUNT(*) as count FROM cards WHERE queue IN (-2, -3) GROUP BY queue;\")",
+      "Bash(sqlite3 \"/Users/aecj/Library/Application Support/Anki2/Usuário 1/collection.anki2\" \"SELECT date(due, ''unixepoch'') as due_date, COUNT(*) as buried_count FROM cards WHERE queue IN (-2, -3) AND date(due, ''unixepoch'') >= ''2025-06-10'' AND date(due, ''unixepoch'') <= ''2025-10-18'' GROUP BY date(due, ''unixepoch'') ORDER BY due_date;\")",
+      "Bash(sqlite3 \"/Users/aecj/Library/Application Support/Anki2/Usuário 1/collection.anki2\" \"SELECT date(''now'') as today;\")",
+      "Bash(sqlite3 -header -column \"/Users/aecj/Library/Application Support/Anki2/Usuário 1/collection.anki2\" \"SELECT queue, type, MIN(due) as min_due, MAX(due) as max_due, COUNT(*) as count FROM cards GROUP BY queue, type;\")",
+      "Bash(sqlite3 \"/Users/aecj/Library/Application Support/Anki2/Usuário 1/collection.anki2\" \"SELECT crt FROM col;\")",
+      "Bash(sqlite3 -header -column \"/Users/aecj/Library/Application Support/Anki2/Usuário 1/collection.anki2\" \"SELECT date(1479276000 + (due * 86400), ''unixepoch'') as due_date, COUNT(*) as overdue_count FROM cards WHERE queue = 2 AND type = 2 AND due < (strftime(''%s'', ''now'') - 1479276000) / 86400 AND date(1479276000 + (due * 86400), ''unixepoch'') >= ''2025-06-10'' GROUP BY date(1479276000 + (due * 86400), ''unixepoch'') ORDER BY due_date;\")",
+      "Bash(sqlite3 \"/Users/aecj/Library/Application Support/Anki2/Usuário 1/collection.anki2\" \"SELECT COUNT(*) as total_overdue, SUM(CASE WHEN date(1479276000 + (due * 86400), ''unixepoch'') >= ''2025-06-10'' THEN 1 ELSE 0 END) as overdue_since_june FROM cards WHERE queue = 2 AND type = 2 AND due < (strftime(''%s'', ''now'') - 1479276000) / 86400;\")",
+      "Bash(sqlite3 -header -column \"/Users/aecj/Library/Application Support/Anki2/Usuário 1/collection.anki2\" \"SELECT date(1479276000 + (due * 86400), ''unixepoch'') as due_date, COUNT(*) as overdue_count FROM cards WHERE queue = 2 AND type = 2 AND due < (strftime(''%s'', ''now'') - 1479276000) / 86400 AND date(1479276000 + (due * 86400), ''unixepoch'') >= ''2025-06-10'' AND date(1479276000 + (due * 86400), ''unixepoch'') <= ''2025-10-18'' GROUP BY date(1479276000 + (due * 86400), ''unixepoch'') ORDER BY due_date;\")",
+      "Bash(chmod +x /Users/aecj/Apps/script_ingles/anki_overdue_cards.rb)",
+      "Bash(ruby /Users/aecj/Apps/script_ingles/anki_overdue_cards.rb)",
+      "Bash(chmod +x /Users/aecj/Apps/script_ingles/calculate_zero_overdue.rb)",
+      "Bash(ruby /Users/aecj/Apps/script_ingles/calculate_zero_overdue.rb)",
+      "Bash(ruby -e \"\ntotal_overdue = 5940\ncards_per_day = 100\nnew_cards_per_day = 10\nnet_progress = cards_per_day - new_cards_per_day\n\ndays_needed = (total_overdue.to_f / net_progress).ceil\ntarget_date = Date.today + days_needed\n\nputs ''='' * 70\nputs ''CALCULATION: When will you have 0 overdue cards?''\nputs ''='' * 70\nputs ''''\nputs ''Current Status:''\nputs \"\"  Total overdue cards: #{total_overdue}\"\"\nputs \"\"  Cards studied per day: #{cards_per_day}\"\"\nputs \"\"  New cards per day: #{new_cards_per_day}\"\"\nputs \"\"  Net progress per day: #{net_progress} cards\"\"\nputs ''''\nputs ''='' * 70\nputs ''RESULT:''\nputs \"\"  Days needed: #{days_needed} days\"\"\nputs \"\"  Target date: #{target_date.strftime(''%Y-%m-%d (%A, %B %d)'')}\"\"\nputs ''='' * 70\nputs ''''\nputs ''Calculation: #{total_overdue} ÷ #{net_progress} = #{days_needed} days''\n\")",
+      "Bash(ruby -r date -e \"\ntotal_overdue = 5940\ncards_per_day = 100\nnew_cards_per_day = 10\nnet_progress = cards_per_day - new_cards_per_day\n\ndays_needed = (total_overdue.to_f / net_progress).ceil\ntarget_date = Date.today + days_needed\n\nputs ''='' * 70\nputs ''CALCULATION: When will you have 0 overdue cards?''\nputs ''='' * 70\nputs ''''\nputs ''Current Status:''\nputs \"\"  Total overdue cards: #{total_overdue}\"\"\nputs \"\"  Cards studied per day: #{cards_per_day}\"\"\nputs \"\"  New cards per day: #{new_cards_per_day}\"\"\nputs \"\"  Net progress per day: #{net_progress} cards\"\"\nputs ''''\nputs ''='' * 70\nputs ''RESULT:''\nputs \"\"  Days needed: #{days_needed} days\"\"\nputs \"\"  Target date: #{target_date.strftime(''%Y-%m-%d (%A, %B %d)'')}\"\"\nputs ''='' * 70\nputs ''''\nputs \"\"Calculation: #{total_overdue} ÷ #{net_progress} = #{days_needed} days\"\"\n\")",
+      "Bash(chmod +x /Users/aecj/Apps/script_ingles/anki_progress_tracker.rb)",
+      "Bash(ruby /Users/aecj/Apps/script_ingles/anki_progress_tracker.rb)",
+      "Bash(chmod:*)",
+      "Bash(sqlite3:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -4,7 +4,7 @@ require 'date'
 require 'optparse'
 
 # Path to Anki database
-DB_PATH = File.expand_path("~/Library/Application Support/Anki2/Usuário 1/collection.anki2")
+DB_PATH = File.expand_path("~/Library/Application Support/Anki2/utilizador 1/collection.anki2")
 
 # Default parameters
 options = {
